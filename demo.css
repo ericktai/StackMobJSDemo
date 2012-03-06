@@ -1,0 +1,9 @@
+body {
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    background-image: -webkit-gradient(radial, center center, 0, center center, 600, from(white), to(#CFCFCF)); /* old WebKit Syntax */
+    background-image: -webkit-radial-gradient(center center, circle contain, white, #CFCFCF); /* New WebKit syntax */
+    background-image: -moz-radial-gradient(center center, circle contain, white, #CFCFCF);
+    background-image: -ms-radial-gradient(center center, circle contain, white, #CFCFCF); /* IE10+ */
+    background-image: -o-radial-gradient(center center, circle contain, white, #CFCFCF); /* Opera (13?) */
+    background-image: radial-gradient(center center, circle contain, white, #CFCFCF); /* standard syntax */
+}

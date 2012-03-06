@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="todo.css" type="text/css"/>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://static.stackmob.com/js/json2-min.js"></script>
+<script type="text/javascript" src="http://static.stackmob.com/js/underscore-1.3.0-min.js"></script>
+<script type="text/javascript" src="http://static.stackmob.com/js/backbone-0.5.3-min.js"></script>
+<script type="text/javascript" src="http://static.stackmob.com/js/stackmob-js-0.1.1.js"></script>
+
+  
+<script type="text/javascript">
+/* <![CDATA[ */
+  StackMob.init({
+   appName: 'demo',
+   clientSubdomain: 'stackmob003',
+   dev: true
+  });
+/* ]]> */
+</script>
+ 
+</head>
+<body>
+
+<h2>CRUD</h2>
+<ul>
+	<li><a href="#" id="createuser">Create User</a></li>
+	<li><a href="#" id="readuser">Read User</a></li>
+	<li><a href="#" id="edituser">Edit User</a></li>
+	<li><a href="#" id="deleteuser">Delete User</a></li>
+</ul>
+
+<h2>Custom Objects</h2>
+<ul>
+	<li><a href="#" id="createtodo">Create Single Todo</a></li>
+	<li><a href="#" id="createtodos">Create Todos</a></li>
+	<li><a href="#" id="readtodos">Read Todos</a></li>
+	<li><a href="#" id="deletetodos">Delete Todos</a></li>
+</ul>
+
+<h2>Field support</h2>
+<ul>
+	<li><a href="#" id="multifield">Create Object w/Fields</a></li>
+</ul>
+
+<h2>Relationships</h2>
+(Requires schema with relationship)
+<ul>
+	<li><a href="#" id="linktodos">Link Todos</a></li>
+	<li><a href="#" id="readexpanded">Read Expanded User with Todos</a></li>
+</ul>
+
+<script type="text/javascript">
+
+var Todo = StackMob.Model.extend({ schemaName: 'todo' });
+var Todos = StackMob.Collection.extend({ model: Todo });
+
+var TestObject = StackMob.Model.extend({ schemaName: 'testobject' });
+
+
+$('#createuser').click(function(e) {
+	var user = new StackMob.User({ username: 'chucknorris', password: 'myfists' });
+	user.create(StackMobExamples.debug('Create user'));
+});
+
+$('#edituser').click(function(e) {
+	var user = new StackMob.User({ username: 'chucknorris' });
+	user.set({ age: 50, weapons: ['nunchucks', 'fists', 'teeth'] });
+	user.save(null, StackMobExamples.debug('Edit user'));
+});
+
+$('#readuser').click(function(e) {
+	var user = new StackMob.User({ username: 'chucknorris' });
+	user.fetch(StackMobExamples.debug('Read User'));
+});
+
+$('#deleteuser').click(function(e) {
+	var user = new StackMob.User({ username: 'chucknorris' });
+	user.destroy(StackMobExamples.debug('Delete user'));
+});
+
+$('#createtodo').click(function(e) {
+	var todo = new Todo({ action: 'Try creating a todo object' });
+	todo.create(StackMobExamples.debug('Create Todo'));
+});
+
+$('#createtodos').click(function(e) {
+	for(var i = 0; i < 10; i++) {
+		var todo = new Todo({ action: 'Do this ' + i });
+		todo.create(StackMobExamples.debug('Creating Todo'));
+	}	
+});
+
+$('#readtodos').click(function(e) {
+	var todos = new Todos();
+	var q = new StackMob.Collection.Query();
+	q.orderAsc('action');
+	todos.query(q, StackMobExamples.debug('Reading todos'));
+});
+
+$('#deletetodos').click(function(e) {
+	var todos = new Todos();
+	todos.fetch({
+		success: function(collection) {
+			_.each(collection.models, function(m) {
+				m.destroy(StackMobExamples.debug('Deleting: ' + m.get('todo_id')));
+			});
+		}
+	});
+});
+
+
+$('#multifield').click(function(e) {
+	var obj = new TestObject({
+		string: 'a string',
+		integer: 1,
+		floatnum: 1.5,
+		bool: true,
+		arraystring: ['a','b','c'],
+		arrayint: [1,2,3],
+		arrayfloat: [1.5,2.5,3.5],
+		arraybool: [true, false, true]	
+	});
+	obj.create(StackMobExamples.debug('Creating object with different types of fields'));
+});
+
+$('#linktodos').click(function(e) {
+	var stuffToDo = [
+		new Todo({ action: 'take some names' }),
+		new Todo({ action: 'take out the garbage' }),
+		new Todo({ action: 'buy milk' }),
+		new Todo({ action: 'do laundry' })
+	];
+	
+	var user = new StackMob.User({ username: 'chucknorris' });
+	user.appendAndCreate('chores', stuffToDo, StackMobExamples.debug('Linking Todos'));
+
+});
+
+$('#readexpanded').click(function(e) {
+	var user = new StackMob.User({ username: 'chucknorris' });
+	user.fetchExpanded(1, StackMobExamples.debug('Fetching expanded user'));
+});
+
+
+
+</script>
+
+
+
+
+<script type="text/javascript" src="http://static.stackmob.com/resources/js/jsonFormatter-0.1.0-min.js"></script>
+
+<style type="text/css">
+    /* <![CDATA[ */
+    #results-container {
+      position: fixed;
+      top: 50px;
+      right: 50px;
+      background-color: #FFF;
+      border: 1px solid #CCC;
+      padding: 10px;
+    }
+    /* ]]> */
+</style>
+
+<div id="results-container">
+  <h3>Query Results:</h3>
+  <div>(results also displayed in your FireBug/Developer Tools JS console)</div>
+  <textarea id="results" rows="25" cols="80"></textarea>
+</div>
+
+
+ 
+<script type="text/javascript">
+var StackMobExamples = {};
+  /*
+   * For testing purposes
+   */
+  StackMobExamples['debug'] = function(txt, s, f) {
+    return {
+      success: function(result) {
+        txt = txt || '';
+        console.debug('------- ' + txt + ' success start-----');
+        if (result) {
+          if (result.toJSON) console.debug(result.toJSON());
+          var jf = new JSONFormatter((result.toJSON ? result.toJSON() : result), 'pre');
+          $('#results').text(jf.formatJSON());
+        } else $('#results').text('No response body. Check your Firebug/Developer Tools Javascript Console.');
+
+        if (s) s(result);
+        return result;
+      },
+      error: function(model, response) {
+        txt = txt || '';
+        console.debug('------- ' + txt + ' error start-----');
+        if (response) {
+          var jf = new JSONFormatter(response, 'pre');
+          $('#results').text(jf.formatJSON());
+        } else $('#results').text('No response body. Check your Firebug/Developer Tools Javascript Console.');
+
+        if (f) f(response);
+        return response;
+      }
+    };
+  };
+
+
+</script>
+ 
+</body>
+</html>

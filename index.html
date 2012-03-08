@@ -42,8 +42,8 @@
 <h2>Relationships</h2>
 (Requires schema with relationship)
 <ul>
-	<li><a href="#" id="linktodos">Give Weapons to Chuck Norris</a></li>
-	<li><a href="#" id="readexpanded">Read Expanded User with Todos</a></li>
+	<li><a href="#" id="addattack">Give Weapons to Chuck Norris</a></li>
+	<li><a href="#" id="readexpanded">Read Expanded Chuck Norris with Weapons</a></li>
 </ul>
 
 <script type="text/javascript">
@@ -74,13 +74,13 @@ $('#deleteuser').click(function(e) {
 var Weapon = StackMob.Model.extend({ schemaName: 'weapon' });
 
 
-$('#multifield').click(function(e) {
+$('#addweapons').click(function(e) {
 	var gun = new Weapon({
-		name: 'Machine Gun',
+		name: 'NunChucks',
 		hitpoints: 50, //integer
 		cost: 150.50, //float
 		visible: true, //boolean
-		settings: ['auto','semi','manual'], //array of strings
+		settings: ['ouch','super ouch','mega ouch'], //array of strings
 		upgradelevels: [1,2,3], //array of integers
 		upgradecosts: [50.00,100.00,250.00], //array of floats
 		enabled: [true, false, true]	//array of booleans
@@ -88,16 +88,33 @@ $('#multifield').click(function(e) {
 	gun.create(StackMobExamples.debug('Creating Weapon object with different types of fields'));
 });
 
-$('#linktodos').click(function(e) {
-	var stuffToDo = [
-		new Todo({ action: 'take some names' }),
-		new Todo({ action: 'take out the garbage' }),
-		new Todo({ action: 'buy milk' }),
-		new Todo({ action: 'do laundry' })
+$('#addmoreweapons').click(function(e) {
+	var weapons = [
+		new Weapon({
+			name: 'Fists of Fury',
+			hitpoints: 5, //integer
+			cost: 0, //float
+			visible: true, //boolean
+			settings: ['ouch','super ouch','mega ouch'], //array of strings
+			upgradelevels: [1,2,3], //array of integers
+			upgradecosts: [5.00,10.00,25.00], //array of floats
+			enabled: [true, false, true]	//array of booleans
+		}),
+		
+		new Weapon({
+			name: 'Beard of Death',
+			hitpoints: 5000, //integer
+			cost: 2235.75, //float
+			visible: true, //boolean
+			settings: ['ouch','super ouch','mega ouch'], //array of strings
+			upgradelevels: [1,2,3], //array of integers
+			upgradecosts: [150.00,1000.00,5250.00], //array of floats
+			enabled: [true, false, true]	//array of booleans
+		})
 	];
 	
 	var user = new StackMob.User({ username: 'chucknorris' });
-	user.appendAndCreate('chores', stuffToDo, StackMobExamples.debug('Linking Todos'));
+	user.appendAndCreate('weapons', weapons, StackMobExamples.debug('Adding Weapons to Chuck Norris'));
 
 });
 

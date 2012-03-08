@@ -32,32 +32,22 @@
 	<li><a href="#" id="deleteuser">Delete User</a></li>
 </ul>
 
-<h2>Custom Objects</h2>
-<ul>
-	<li><a href="#" id="createtodo">Create Single Todo</a></li>
-	<li><a href="#" id="createtodos">Create Todos</a></li>
-	<li><a href="#" id="readtodos">Read Todos</a></li>
-	<li><a href="#" id="deletetodos">Delete Todos</a></li>
-</ul>
 
-<h2>Field support</h2>
+
+<h2>Custom Object</h2>
 <ul>
-	<li><a href="#" id="multifield">Create Object w/Fields</a></li>
+	<li><a href="#" id="multifield">Create Weapon object w/diverse Field Types</a></li>
 </ul>
 
 <h2>Relationships</h2>
 (Requires schema with relationship)
 <ul>
-	<li><a href="#" id="linktodos">Link Todos</a></li>
+	<li><a href="#" id="linktodos">Give Weapons to Chuck Norris</a></li>
 	<li><a href="#" id="readexpanded">Read Expanded User with Todos</a></li>
 </ul>
 
 <script type="text/javascript">
 
-var Todo = StackMob.Model.extend({ schemaName: 'todo' });
-var Todos = StackMob.Collection.extend({ model: Todo });
-
-var TestObject = StackMob.Model.extend({ schemaName: 'testobject' });
 
 
 $('#createuser').click(function(e) {
@@ -81,49 +71,21 @@ $('#deleteuser').click(function(e) {
 	user.destroy(StackMobExamples.debug('Delete user'));
 });
 
-$('#createtodo').click(function(e) {
-	var todo = new Todo({ action: 'Try creating a todo object' });
-	todo.create(StackMobExamples.debug('Create Todo'));
-});
-
-$('#createtodos').click(function(e) {
-	for(var i = 0; i < 10; i++) {
-		var todo = new Todo({ action: 'Do this ' + i });
-		todo.create(StackMobExamples.debug('Creating Todo'));
-	}	
-});
-
-$('#readtodos').click(function(e) {
-	var todos = new Todos();
-	var q = new StackMob.Collection.Query();
-	q.orderAsc('action');
-	todos.query(q, StackMobExamples.debug('Reading todos'));
-});
-
-$('#deletetodos').click(function(e) {
-	var todos = new Todos();
-	todos.fetch({
-		success: function(collection) {
-			_.each(collection.models, function(m) {
-				m.destroy(StackMobExamples.debug('Deleting: ' + m.get('todo_id')));
-			});
-		}
-	});
-});
+var Weapon = StackMob.Model.extend({ schemaName: 'weapon' });
 
 
 $('#multifield').click(function(e) {
-	var obj = new TestObject({
-		string: 'a string',
-		integer: 1,
-		floatnum: 1.5,
-		bool: true,
-		arraystring: ['a','b','c'],
-		arrayint: [1,2,3],
-		arrayfloat: [1.5,2.5,3.5],
-		arraybool: [true, false, true]	
+	var gun = new Weapon({
+		name: 'Machine Gun',
+		hitpoints: 50, //integer
+		cost: 150.50, //float
+		visible: true, //boolean
+		settings: ['auto','semi','manual'], //array of strings
+		upgradelevels: [1,2,3], //array of integers
+		upgradecosts: [50.00,100.00,250.00], //array of floats
+		enabled: [true, false, true]	//array of booleans
 	});
-	obj.create(StackMobExamples.debug('Creating object with different types of fields'));
+	gun.create(StackMobExamples.debug('Creating Weapon object with different types of fields'));
 });
 
 $('#linktodos').click(function(e) {

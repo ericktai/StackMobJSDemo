@@ -57,8 +57,7 @@ $('#createuser').click(function(e) {
 
 $('#edituser').click(function(e) {
 	var user = new StackMob.User({ username: 'chucknorris' });
-	user.set({ age: 55 });
-	user.save(null, StackMobExamples.debug('Edit user'));
+	user.save({ age: 55 }, StackMobExamples.debug('Edit user'));
 });
 
 $('#readuser').click(function(e) {

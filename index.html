@@ -48,7 +48,7 @@
 
 <script type="text/javascript">
 
-
+/* Basic CRUD Examples */
 
 $('#createuser').click(function(e) {
 	var user = new StackMob.User({ username: 'chucknorris', password: 'myfists' });
@@ -71,10 +71,13 @@ $('#deleteuser').click(function(e) {
 	user.destroy(StackMobExamples.debug('Delete user'));
 });
 
+/* Defining your own Objects/Schemas */
+
 var Weapon = StackMob.Model.extend({ schemaName: 'weapon' });
 
 
 $('#addweapons').click(function(e) {
+	//Create an Object and Schema in one call
 	var gun = new Weapon({
 		name: 'NunChucks',
 		hitpoints: 50, //integer

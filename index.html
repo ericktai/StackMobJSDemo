@@ -51,13 +51,13 @@
 /* Basic CRUD Examples */
 
 $('#createuser').click(function(e) {
-	var user = new StackMob.User({ username: 'chucknorris', password: 'myfists' });
+	var user = new StackMob.User({ username: 'chucknorris', password: 'myfists', age: 50 });
 	user.create(StackMobExamples.debug('Create user'));
 });
 
 $('#edituser').click(function(e) {
 	var user = new StackMob.User({ username: 'chucknorris' });
-	user.set({ age: 50, weapons: ['nunchucks', 'fists', 'teeth'] });
+	user.set({ age: 55 });
 	user.save(null, StackMobExamples.debug('Edit user'));
 });
 

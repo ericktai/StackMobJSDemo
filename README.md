@@ -1,0 +1,1 @@
+This is a simple demo app exploring the StackMob JavaScript SDK.  Feel free to fork this repo and play around and edit anything you'd like!  Have fun!
